@@ -28,10 +28,10 @@ A stock Market Analyzer with AI integration. It can take a stock type, and date 
 - Fetched and stored news snippets and metadata for peak and lowest dates
 - Analyzed Signal volatility
     > - Calculated daily percentage changes
-    - Calculated volatility (standard deviation of daily returns) in percentage
-- Analyzed daily percentage changes
-- Analyzed 20-day rolling volatility (standard deviation)
-- Identified volatility threshold and filtered for high volatility days
+    > - Calculated volatility (standard deviation of daily returns) in percentage
+    > - Analyzed daily percentage changes
+    > - Analyzed 20-day rolling volatility (standard deviation)
+    > - Identified volatility threshold and filtered for high volatility days
 - Used OpenAI’s gpt-4.1-mini model to generate final report summary and insights.
 
 ## Analysis Results 
