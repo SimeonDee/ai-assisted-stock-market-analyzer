@@ -1,0 +1,207 @@
+{
+  "messages": [
+    {
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "type": "msg",
+      "time": 1762287048.6093624,
+      "raw_time": false,
+      "body": "`yfinance_docs.md`  Use yfinance to download Apple (AAPL) stock data for this period:\n\nstart date: October 24, 2024\nend date: October 23, 2025\nSave the returned results in a DataFrame called aapl",
+      "attachments": [
+        "b456b8a5-d1c7-4d90-9a8d-c26836b9de43"
+      ],
+      "id": "8c2b2857-ad44-4245-ae77-41469f282b67"
+    },
+    {
+      "body": "Here\u2019s the Python code to download Apple\u2019s stock data for the specified date range and store it in a DataFrame named `aapl` using `yfinance`:  \n\n```python\nimport yfinance as yf\n\n# Download Apple (AAPL) data for the specified period\naapl = yf.download('AAPL', start='2024-10-24', end='2025-10-23')\n\n# Display the first few rows\nprint(aapl.head())\n```\n\n\u2705 **Explanation:**\n- `yf.download()` fetches historical data directly from Yahoo Finance.  \n- The `start` and `end` parameters define the date range.  \n- The result is stored in the variable `aapl`, which is a Pandas DataFrame containing columns like **Open**, **High**, **Low**, **Close**, **Adj Close**, and **Volume**.",
+      "time": 1762287048.935655,
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "type": "msg",
+      "mentions": [],
+      "raw_time": false,
+      "id": "212c0881-f3ec-4f62-a127-ca09f52c559e"
+    },
+    {
+      "raw_time": false,
+      "time": 1762287119.306492,
+      "id": "26346128-47e3-4841-84ac-18b9478314ea",
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "type": "msg",
+      "body": "The DataFrame aapl has multiIndexed columns [('Close','AAPL'),('High','AAPL'),('Low','AAPL'),('Open','AAPL'),('Volume','AAPL')]. Flatten the columns by removing 'AAPL'."
+    },
+    {
+      "raw_time": false,
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "type": "msg",
+      "time": 1762287119.3342137,
+      "id": "9f183583-a0b7-413d-9ea5-71ff38f93b8d",
+      "body": "You can flatten the multi-indexed columns by dropping the `'AAPL'` level and keeping only the first element of each column tuple.  \nHere\u2019s how to do it:\n\n```python\n# Flatten multi-indexed columns\naapl.columns = aapl.columns.droplevel(1)\n\n# Display the updated DataFrame\nprint(aapl.head())\n```\n\n\u2705 **Explanation:**\n- When `yfinance.download()` is used with multiple tickers (even one, sometimes), it may create a **MultiIndex** with levels like `('Close', 'AAPL')`.  \n- `droplevel(1)` removes the second level (`'AAPL'`), leaving only `'Close'`, `'High'`, `'Low'`, `'Open'`, and `'Volume'`.",
+      "mentions": []
+    },
+    {
+      "id": "0b966316-9026-459f-807b-94c8497f04cd",
+      "type": "msg",
+      "body": "Display the shape and statistical summary of the DataFrame aapl.",
+      "time": 1762287160.7388797,
+      "raw_time": false,
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99"
+    },
+    {
+      "body": "You can view the shape and a statistical summary of the `aapl` DataFrame using the following code:  \n\n```python\n# Display the shape of the DataFrame\nprint(\"Shape of aapl:\", aapl.shape)\n\n# Display the statistical summary\nprint(\"\\nStatistical Summary:\")\nprint(aapl.describe())\n```\n\n\u2705 **Explanation:**\n- `aapl.shape` returns a tuple `(rows, columns)` showing how many trading days and features are in the dataset.  \n- `aapl.describe()` provides summary statistics (count, mean, std, min, quartiles, max) for all numeric columns in the DataFrame.",
+      "mentions": [],
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "raw_time": false,
+      "type": "msg",
+      "time": 1762287160.7654505,
+      "id": "5fdae242-c860-4d79-b48c-f7ccae56e1df"
+    },
+    {
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "type": "msg",
+      "time": 1762287227.615406,
+      "id": "4a737d0d-9fb4-4fba-9718-e4513816bbdc",
+      "raw_time": false,
+      "body": "Use the Close column of DataFrame aapl to find the total return in percentage (total_return) based on the start price and end price."
+    },
+    {
+      "raw_time": false,
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "body": "You can calculate the **total return (in percentage)** based on the starting and ending values of the `'Close'` column using this formula:  \n\n\\[\n\\text{total\\_return} = \\left( \\frac{\\text{end price} - \\text{start price}}{\\text{start price}} \\right) \\times 100\n\\]\n\nHere\u2019s the Python code to compute it:\n\n```python\n# Calculate total return in percentage\nstart_price = aapl['Close'].iloc[0]\nend_price = aapl['Close'].iloc[-1]\n\ntotal_return = ((end_price - start_price) / start_price) * 100\n\nprint(f\"Total return: {total_return:.2f}%\")\n```\n\n\u2705 **Explanation:**\n- `iloc[0]` accesses the **first** closing price (start of period).  \n- `iloc[-1]` accesses the **last** closing price (end of period).  \n- The formula gives the total percentage change in price over the data period.",
+      "mentions": [],
+      "type": "msg",
+      "time": 1762287227.6470242,
+      "id": "128d0138-f1fb-47e5-9b47-382201be5eb7"
+    },
+    {
+      "raw_time": false,
+      "id": "3ab2be05-6897-489f-8246-bf78f6b3feb5",
+      "type": "msg",
+      "time": 1762287290.7396529,
+      "body": "Create a line chart showing the closing price trend using the column 'Close' of the DataFrame aapl.\n\nUse matplotlib to create a professional-looking chart with:\n\nClear title and axis labels\nGrid for readability\nAppropriate colors and styling",
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99"
+    },
+    {
+      "body": "Here\u2019s an example of how you can create a **professional-looking line chart** of the Apple (AAPL) closing price trend using `matplotlib`:  \n\n```python\nimport matplotlib.pyplot as plt\n\n# Set the figure size for better readability\nplt.figure(figsize=(12, 6))\n\n# Plot the 'Close' column with a color and line width\nplt.plot(aapl['Close'], color='royalblue', linewidth=2, label='Closing Price')\n\n# Add title and axis labels\nplt.title('Apple (AAPL) Closing Price Trend', fontsize=16, fontweight='bold')\nplt.xlabel('Date', fontsize=12)\nplt.ylabel('Closing Price (USD)', fontsize=12)\n\n# Add a grid for better readability\nplt.grid(True, linestyle='--', alpha=0.6)\n\n# Add a legend\nplt.legend()\n\n# Optional: Improve layout\nplt.tight_layout()\n\n# Display the chart\nplt.show()\n```\n\n\u2705 **Notes:**\n- The chart uses **royal blue** for clarity and professionalism.  \n- `plt.grid(True, linestyle='--', alpha=0.6)` adds a subtle grid that enhances readability without cluttering.  \n- `plt.tight_layout()` ensures labels and the title are displayed cleanly.  \n\nThis visualization will clearly show the trend of AAPL's closing prices over time.",
+      "type": "msg",
+      "id": "643c04df-ef7e-4277-8d36-4d8c4db9c960",
+      "time": 1762287292.9115572,
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "mentions": [],
+      "raw_time": false
+    },
+    {
+      "time": 1762287396.3760235,
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "raw_time": false,
+      "type": "msg",
+      "id": "7aba1fb0-326a-4c2f-b9e7-16b7f0fea3f0",
+      "body": "Use the Close column of aapl dataFrame to find and print:\n\nthe peak date (in a variable called peak_date) that corresponds to the maximum closing price peak_price\nthe lowest date (in a variable called lowest_date) that corresponds to the minimum closing price lowest_price\nUpdate the above code to show the peak and low prices in the line chart."
+    },
+    {
+      "body": "Here\u2019s how you can find the **peak** and **lowest** closing prices \u2014 along with their corresponding dates \u2014 and then display them clearly on the chart:  \n\n```python\nimport matplotlib.pyplot as plt\n\n# Find peak (max) and lowest (min) closing prices and their dates\npeak_price = aapl['Close'].max()\nlowest_price = aapl['Close'].min()\n\npeak_date = aapl['Close'].idxmax()\nlowest_date = aapl['Close'].idxmin()\n\nprint(f\"Peak Date: {peak_date}, Peak Price: {peak_price:.2f}\")\nprint(f\"Lowest Date: {lowest_date}, Lowest Price: {lowest_price:.2f}\")\n\n# Create the line chart\nplt.figure(figsize=(12, 6))\nplt.plot(aapl['Close'], color='royalblue', linewidth=2, label='Closing Price')\n\n# Highlight peak and lowest points\nplt.scatter(peak_date, peak_price, color='green', s=100, label='Peak Price', zorder=5)\nplt.scatter(lowest_date, lowest_price, color='red', s=100, label='Lowest Price', zorder=5)\n\n# Annotate the points\nplt.annotate(f'Peak: {peak_price:.2f}',\n             xy=(peak_date, peak_price),\n             xytext=(peak_date, peak_price * 1.02),\n             arrowprops=dict(facecolor='green', shrink=0.05),\n             fontsize=10)\n\nplt.annotate(f'Low: {lowest_price:.2f}',\n             xy=(lowest_date, lowest_price),\n             xytext=(lowest_date, lowest_price * 0.95),\n             arrowprops=dict(facecolor='red', shrink=0.05),\n             fontsize=10)\n\n# Add title and labels\nplt.title('Apple (AAPL) Closing Price Trend', fontsize=16, fontweight='bold')\nplt.xlabel('Date', fontsize=12)\nplt.ylabel('Closing Price (USD)', fontsize=12)\n\n# Add grid and legend\nplt.grid(True, linestyle='--', alpha=0.6)\nplt.legend()\n\n# Improve layout\nplt.tight_layout()\n\n# Show the chart\nplt.show()\n```\n\n\u2705 **Details:**\n- `idxmax()` and `idxmin()` find the **dates** of the maximum and minimum closing prices.  \n- `max()` and `min()` find the **values** themselves.  \n- The chart:\n  - Displays the line for all closing prices.  \n  - Highlights the **peak** (green marker) and **lowest** (red marker).  \n  - Annotates both with price labels and arrows for clarity.",
+      "type": "msg",
+      "id": "45327220-bbc2-4f44-ab15-1140f493cd97",
+      "time": 1762287401.0660365,
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "mentions": [],
+      "raw_time": false
+    },
+    {
+      "type": "msg",
+      "time": 1762287591.2536786,
+      "body": "For the peak_date and lowest_date, search for related Apple news using Serper. The Serper API key is saved in a .env file. Store the snippets of the found articles in a json string news_snippets that has these fields: peak_date, lowest_date, peak_news_snippets, lowest_news_snippets.",
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "id": "50f8ec95-d332-4ff2-ac46-18ced13b8881",
+      "raw_time": false
+    },
+    {
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "mentions": [],
+      "raw_time": false,
+      "body": "Here is an example of how you can use the **Serper API** (a Google Search API) to automatically fetch news snippets related to Apple around the identified **peak_date** and **lowest_date**, and store them in a JSON-formatted string:  \n\n```python\nimport os\nimport json\nimport requests\nfrom dotenv import load_dotenv\n\n# Load the Serper API key from the .env file\nload_dotenv()\nSERPER_API_KEY = os.getenv(\"SERPER_API_KEY\")\n\n# Define a helper function to query Serper API\ndef search_serper(query):\n    url = \"https://google.serper.dev/news\"\n    headers = {\n        \"X-API-KEY\": SERPER_API_KEY,\n        \"Content-Type\": \"application/json\"\n    }\n    data = {\"q\": query}\n    response = requests.post(url, headers=headers, json=data)\n\n    if response.status_code == 200:\n        articles = response.json().get(\"news\", [])\n        # Collect a few top snippets\n        snippets = [article.get(\"snippet\", \"\") for article in articles[:5]]\n        return snippets\n    else:\n        print(f\"Serper API request failed: {response.status_code} - {response.text}\")\n        return []\n\n# Build the search queries using the peak and lowest dates\npeak_query = f\"Apple stock news around {peak_date.strftime('%Y-%m-%d')}\"\nlowest_query = f\"Apple stock news around {lowest_date.strftime('%Y-%m-%d')}\"\n\n# Fetch news snippets for both dates\npeak_news_snippets = search_serper(peak_query)\nlowest_news_snippets = search_serper(lowest_query)\n\n# Store snippets and metadata in a JSON string\nnews_snippets = json.dumps({\n    \"peak_date\": str(peak_date),\n    \"lowest_date\": str(lowest_date),\n    \"peak_news_snippets\": peak_news_snippets,\n    \"lowest_news_snippets\": lowest_news_snippets\n}, indent=4)\n\nprint(news_snippets)\n```\n\n---\n\n### \u2705 What this does\n- Loads your **Serper API key** securely from a `.env` file.  \n- Uses Serper\u2019s **news search** endpoint to fetch recent Apple-related news for both dates.  \n- Extracts up to 5 **text snippets** per event.  \n- Stores everything neatly in a JSON structure with the fields:\n  - `peak_date`\n  - `lowest_date`\n  - `peak_news_snippets`\n  - `lowest_news_snippets`  \n\nYou can then use `news_snippets` in further analysis (for example, displaying summaries or sentiment analysis).",
+      "type": "msg",
+      "id": "d234fb0d-1dfe-4a55-bdac-5ed221df718e",
+      "time": 1762287596.523522
+    },
+    {
+      "id": "ecc0fc63-574e-41bf-a057-7d20c64f3aa5",
+      "time": 1762287632.7062688,
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "type": "msg",
+      "raw_time": false,
+      "body": "In the DataFrame aapl, find the overall volatility in percentage using the column Close. Volatility is the standard deviation of the daily percentage changes. Save the result in a variable called volatility."
+    },
+    {
+      "body": "You can calculate the **overall volatility** of Apple\u2019s closing prices using the **standard deviation of daily percentage changes** as follows:  \n\n```python\n# Calculate daily percentage changes\ndaily_returns = aapl['Close'].pct_change()\n\n# Calculate volatility (standard deviation of daily returns) in percentage\nvolatility = daily_returns.std() * 100\n\nprint(f\"Overall Volatility: {volatility:.2f}%\")\n```\n\n---\n\n### \u2705 Explanation\n- `pct_change()` computes the day-to-day percentage change in closing price.  \n- `std()` gives the **standard deviation** of these percentage changes.  \n- Multiplying by 100 expresses volatility as a **percentage** instead of a decimal.  \n\nSo the variable `volatility` now holds the overall volatility of AAPL\u2019s closing prices in percentage form.",
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "type": "msg",
+      "raw_time": false,
+      "mentions": [],
+      "id": "5328f44f-c3b4-43c2-9cf5-cb91d422d86b",
+      "time": 1762287635.2510352
+    },
+    {
+      "raw_time": false,
+      "type": "msg",
+      "body": "Calculate the rolling volatility as the as 20-day standard deviation of the daily percentage change and plot it. Identify days of high volatility where volatility is greater than mean + std. Save the days of high volatility in a DataFrame called high_vol_days.",
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "time": 1762287705.3834243,
+      "id": "775bdb46-6a67-4489-8406-bdef6566eb3a"
+    },
+    {
+      "time": 1762287709.1845572,
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "body": "Here\u2019s how you can calculate and visualize the **20-day rolling volatility** for AAPL, then identify and store the **high-volatility days**:\n\n```python\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\n# Calculate daily percentage changes\ndaily_returns = aapl['Close'].pct_change()\n\n# Calculate 20-day rolling volatility (standard deviation)\naapl['Rolling_Volatility'] = daily_returns.rolling(window=20).std() * 100  # in percentage\n\n# Plot rolling volatility\nplt.figure(figsize=(12, 6))\nplt.plot(aapl.index, aapl['Rolling_Volatility'], label='20-Day Rolling Volatility', color='blue')\nplt.title('Apple 20-Day Rolling Volatility')\nplt.xlabel('Date')\nplt.ylabel('Volatility (%)')\nplt.legend()\nplt.grid(True)\nplt.show()\n\n# Identify threshold for high volatility days\nmean_vol = aapl['Rolling_Volatility'].mean()\nstd_vol = aapl['Rolling_Volatility'].std()\nthreshold = mean_vol + std_vol\n\n# Filter days where volatility > mean + std\nhigh_vol_days = aapl[aapl['Rolling_Volatility'] > threshold][['Close', 'Rolling_Volatility']]\n\n# Display the first few high volatility days\nprint(high_vol_days.head())\n```\n\n---\n\n### \u2705 Explanation\n\n- **`pct_change()`** \u2014 computes day-to-day returns.  \n- **`rolling(window=20).std()`** \u2014 calculates a 20-day rolling standard deviation of daily returns (the rolling volatility).  \n- **Threshold** \u2014 defined as `mean + std` of the rolling volatility.  \n- **`high_vol_days`** \u2014 contains the dates (index), closing prices, and rolling volatility for days exceeding that threshold.  \n\nAfter running the plot, you should see spikes where volatility increases significantly \u2014 those points correspond to the high-volatility periods stored in `high_vol_days`.",
+      "type": "msg",
+      "id": "55dcafb2-fb6d-437d-84fe-ddd9b4507a2c",
+      "mentions": [],
+      "raw_time": false
+    },
+    {
+      "time": 1762287785.887201,
+      "type": "msg",
+      "sender": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "raw_time": false,
+      "body": "Use gpt-4.1-mini to generate a summary that takes in these variables:\n\nticker: stock ticker (string)\nstart_date: analysis starting period (string)\nend_date: analysis end period (string)\nnumerical metrics: total_return & volatility (in percentage)\npeak_date, peak_price\nlowest_date, lowest_price\nhigh_vol_days: pandas DataFrame showing high volatility days\nnews_snippets: string containing snippet of news for the peak and lowest dates\nThe OpenAI API key is stored in the .env file. The variables are already defined in the notebook.",
+      "id": "edf76b64-880f-40d0-9c25-b277fed29694"
+    },
+    {
+      "sender": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "mentions": [],
+      "id": "0e125121-c912-4531-9dc3-064a89ae71df",
+      "time": 1762287790.430346,
+      "type": "msg",
+      "raw_time": false,
+      "body": "You can use the **`jupyter_ai`** or **`openai`** Python client to query `gpt-4.1-mini` for a coherent textual summary that includes all those variables.  \n\nHere\u2019s how to do it \u2014 assuming your environment is already set up with an **OpenAI API key** stored in the `.env` file and the variables you mentioned are already defined in your notebook.\n\n---\n\n### \u2705 Example code\n\n```python\nfrom openai import OpenAI\nimport os\nfrom dotenv import load_dotenv\n\n# Load environment variables from .env\nload_dotenv()\n\n# Initialize OpenAI client\nclient = OpenAI(api_key=os.getenv(\"OPENAI_API_KEY\"))\n\n# Create the prompt for the summary\nprompt = f\"\"\"\nGenerate a concise stock performance summary using the following information:\n\nTicker: {ticker}\nAnalysis Period: {start_date} to {end_date}\n\nMetrics:\n- Total Return: {total_return:.2f}%\n- Overall Volatility: {volatility:.2f}%\n\nPrice Highlights:\n- Peak Date: {peak_date}, Peak Price: {peak_price:.2f}\n- Lowest Date: {lowest_date}, Lowest Price: {lowest_price:.2f}\n\nHigh Volatility Days (sample):\n{high_vol_days.head().to_string(index=True)}\n\nRelevant News:\n{news_snippets}\n\nPlease provide a natural-language summary suitable for a market report.\n\"\"\"\n\n# Query GPT-4.1-mini\nresponse = client.chat.completions.create(\n    model=\"gpt-4.1-mini\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a financial analyst writing a market summary.\"},\n        {\"role\": \"user\", \"content\": prompt}\n    ]\n)\n\n# Extract and display the generated summary\nsummary = response.choices[0].message.content\nprint(summary)\n```\n\n---\n\n### \ud83e\udde9 What This Code Does\n1. Loads your `.env` file to access the **OpenAI API key**.  \n2. Initializes the client to use **gpt-4.1-mini**.  \n3. Builds a **structured prompt** incorporating all supplied variables.  \n4. Requests a natural-language summary and prints the result.\n\n---\n\nThis will yield a coherent paragraph or two summarizing the stock\u2019s performance, highlighting volatility periods, key price movements, and relevant news context."
+    }
+  ],
+  "users": {
+    "7dbe1cec24b5461ab4dbf8bd410daf99": {
+      "initials": "AE",
+      "color": "var(--jp-collaborator-color7)",
+      "display_name": "Anonymous Elara",
+      "bot": false,
+      "username": "7dbe1cec24b5461ab4dbf8bd410daf99",
+      "name": "Anonymous Elara",
+      "avatar_url": null,
+      "mention_name": "Anonymous-Elara"
+    },
+    "jupyter-ai-personas::jupyter_ai::JupyternautPersona": {
+      "avatar_url": "/api/ai/static/jupyternaut.svg",
+      "color": null,
+      "bot": true,
+      "name": "Jupyternaut",
+      "username": "jupyter-ai-personas::jupyter_ai::JupyternautPersona",
+      "display_name": "Jupyternaut",
+      "initials": null
+    }
+  },
+  "attachments": {
+    "b456b8a5-d1c7-4d90-9a8d-c26836b9de43": {
+      "value": "yfinance_docs.md",
+      "type": "file"
+    }
+  },
+  "metadata": {
+    "id": "03e04a0c-4956-480f-be28-d3da1288cf9d"
+  }
+}

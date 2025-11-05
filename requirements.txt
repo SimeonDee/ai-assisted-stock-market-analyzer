@@ -1,0 +1,17 @@
+# Core JupyterAI (V3 beta - use specific version)
+# Latest stable: 2.31.6 | Latest beta: 3.0.0b7
+jupyter-ai>=3.0.0b7
+python-dotenv>=1.0.0
+
+# LLM Integrations (reporting)
+openai>=1.0.0
+
+# Data Science & Visualization
+pandas>=2.0.0
+matplotlib>=3.7.0
+
+# API Integration
+requests>=2.31.0
+
+# Financial Data
+yfinance>=0.2.0
